@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0d1729">
+  <title>Transaction Anomaly Lab | Topic 3</title>
+  <style>
+    :root{--ink:#f4f7fb;--muted:#a6b2c5;--bg:#0b1220;--panel:#121d30;--panel2:#17243a;--line:#2a3a54;--blue:#63a8ff;--cyan:#4ed6c7;--amber:#ffca70;--red:#ff827f;--green:#77dfae;--shadow:0 18px 50px rgba(0,0,0,.25)}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 10% -15%,#1b3152 0,transparent 38%),var(--bg);color:var(--ink);font:15px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    a{color:var(--blue)}.wrap{width:min(1160px,calc(100% - 36px));margin:auto}.top{padding:42px 0 26px}.eyebrow{text-transform:uppercase;letter-spacing:.17em;color:var(--cyan);font-size:.75rem;font-weight:750}.top h1{margin:.55rem 0 .5rem;font-size:clamp(2rem,5vw,3.4rem);line-height:1.06;letter-spacing:-.04em;max-width:840px}.subtitle{max-width:760px;color:#bdc9d9;font-size:1.05rem}.pill{display:inline-flex;gap:8px;align-items:center;border:1px solid #29585c;border-radius:999px;padding:5px 11px;color:#a6fff1;font-size:.78rem;font-weight:700;margin-top:8px}
+    .warning{display:grid;grid-template-columns:27px 1fr;gap:12px;padding:17px 19px;border:1px solid #8b6730;border-left:4px solid var(--amber);border-radius:14px;background:linear-gradient(100deg,rgba(95,66,24,.38),rgba(47,39,31,.28));box-shadow:var(--shadow);margin:5px 0 22px}.warning .icon{color:var(--amber);font-weight:900;font-size:1.2rem}.warning strong{color:#ffe0a1}.warning p{margin:0;color:#e8d9bd}.warning p+p{margin-top:5px}
+    .section-title{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:30px 0 14px}.section-title h2{font-size:1.25rem;margin:0;letter-spacing:-.02em}.section-title p{margin:0;color:var(--muted);font-size:.88rem}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}.card{background:linear-gradient(145deg,rgba(24,38,60,.95),rgba(17,28,45,.96));border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}.metric{padding:18px 19px;min-height:120px}.label{font-size:.79rem;color:var(--muted)}.value{font-size:2rem;font-weight:760;letter-spacing:-.045em;margin-top:8px}.detail{color:#c1cede;font-size:.82rem;margin-top:3px}.content{padding:20px}.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}.meta{display:grid;grid-template-columns:1fr 1fr;gap:12px}.meta div{padding:13px 14px;background:rgba(4,11,22,.22);border:1px solid rgba(90,112,145,.25);border-radius:11px}.meta small{display:block;color:var(--muted);font-size:.76rem}.meta b{display:block;margin-top:4px;font-size:.98rem;overflow-wrap:anywhere}.tag{border-radius:999px;border:1px solid #426081;padding:3px 9px;color:#c6ddf7;font-size:.72rem;display:inline-block}.charts{display:grid;grid-template-columns:1fr 1fr;gap:14px}.chart{padding:15px;overflow:hidden}.chart h3{font-size:.95rem;margin:0 0 10px}.chart img{width:100%;display:block;border-radius:10px;background:#fff;min-height:220px;object-fit:contain}.muted{color:var(--muted)}
+    .formrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.file{flex:1;min-width:230px;padding:10px;border:1px dashed #49617f;border-radius:10px;background:#0b1525;color:var(--muted)}button{border:0;background:linear-gradient(115deg,#68b0ff,#5991ff);color:#061324;padding:11px 17px;border-radius:10px;font-weight:800;cursor:pointer;box-shadow:0 8px 22px rgba(83,144,255,.18)}button:disabled{opacity:.55;cursor:wait}.help{font-size:.85rem;color:#c2cedd;margin:11px 0 0}.status{margin-top:14px;padding:12px 14px;border-radius:10px;display:none}.status.ok{display:block;background:#13342d;border:1px solid #256b55;color:#c9ffe5}.status.err{display:block;background:#3a2027;border:1px solid #833f48;color:#ffd8dc}.scroll{overflow:auto;margin-top:14px;border:1px solid var(--line);border-radius:11px}table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:.83rem;min-width:610px}th,td{padding:10px 12px;text-align:left;border-bottom:1px solid rgba(78,98,127,.35)}th{color:#b9c8dc;background:#0d192a;position:sticky;top:0}td{color:#e5ecf5}tr:last-child td{border-bottom:0}.decision{font-weight:800}.decision.review{color:var(--amber)}.decision.no_alert{color:var(--green)}.foot{border-top:1px solid var(--line);margin:34px 0 0;padding:22px 0 38px;color:var(--muted);font-size:.83rem}.foot strong{color:#dce5ef}.error{color:#ffb9b9}.loading{color:var(--muted)}
+    @media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.two,.charts{grid-template-columns:1fr}.section-title{align-items:start;flex-direction:column}}
+    @media(max-width:520px){.wrap{width:min(100% - 24px,1160px)}.top{padding-top:30px}.grid{gap:9px}.metric{padding:14px;min-height:105px}.value{font-size:1.65rem}.meta{grid-template-columns:1fr}.content{padding:15px}}
+  </style>
+</head>
+<body>
+  <header class="wrap top">
+    <div class="eyebrow">Final-year research prototype · Topic 03</div>
+    <h1>Transaction Anomaly Lab</h1>
+    <p class="subtitle">A normal-only autoencoder learns a compact representation of genuine transactions and ranks unusual rows for review—without training on fraud examples.</p>
+    <span class="pill"><span aria-hidden="true">●</span> Local research dashboard</span>
+  </header>
+  <main class="wrap">
+    <section class="warning" role="alert" aria-label="Dataset scope warning">
+      <div class="icon" aria-hidden="true">!</div>
+      <div><p><strong>Proxy benchmark — not Nigerian mobile-money/POS validation.</strong> This prototype is trained and evaluated on real European credit-card transactions from the public OpenML benchmark.</p><p>The results do not establish performance on Nigerian mobile-money or POS transactions. A review flag means unusual, not confirmed fraud. Do not use this prototype to automatically block payments.</p></div>
+    </section>
+
+    <div class="section-title"><div><h2>Held-out benchmark results</h2><p>Fixed threshold; later chronological test partition. Metrics load from the saved training run.</p></div><span class="tag" id="run-state">Loading results…</span></div>
+    <section class="grid" aria-live="polite">
+      <article class="card metric"><div class="label">Average precision</div><div class="value" id="ap">—</div><div class="detail">More informative under severe imbalance</div></article>
+      <article class="card metric"><div class="label">Precision at threshold</div><div class="value" id="precision">—</div><div class="detail">Share of alerts labelled fraud in this holdout</div></article>
+      <article class="card metric"><div class="label">Fraud recall</div><div class="value" id="recall">—</div><div class="detail">Share of holdout frauds flagged</div></article>
+      <article class="card metric"><div class="label">False-positive rate</div><div class="value" id="fpr">—</div><div class="detail">Share of genuine holdout rows flagged</div></article>
+    </section>
+
+    <div class="section-title"><div><h2>Benchmark and calibration</h2><p>The validation threshold is learned from genuine validation rows only.</p></div></div>
+    <section class="card content">
+      <div class="meta">
+        <div><small>Source dataset</small><b id="dataset">Loading…</b></div>
+        <div><small>Chronological test size</small><b id="test-rows">—</b></div>
+        <div><small>Alert cutoff (MSE)</small><b id="threshold">—</b></div>
+        <div><small>Validation genuine-row FPR</small><b id="val-fpr">—</b></div>
+        <div><small>Test false alerts / detected frauds</small><b id="confusion">—</b></div>
+        <div><small>Benchmark test fraud prevalence</small><b id="prevalence">—</b></div>
+      </div>
+      <p class="help">The source provides V1–V28 PCA components, amount, and elapsed time—not interpretable customer, merchant, POS-terminal, or mobile-wallet features.</p>
+    </section>
+
+    <div class="section-title"><div><h2>Diagnostics</h2><p>Generated from the fixed chronological holdout.</p></div></div>
+    <section class="charts">
+      <article class="card chart"><h3>Holdout confusion matrix</h3><img src="/assets/confusion_matrix.png" alt="Confusion matrix from the chronological test partition" onerror="this.alt='Run model training to generate this plot';this.style.minHeight='80px'"></article>
+      <article class="card chart"><h3>Reconstruction-error distribution</h3><img src="/assets/score_distribution.png" alt="Genuine and fraud reconstruction-error distributions with the validation-derived threshold" onerror="this.alt='Run model training to generate this plot';this.style.minHeight='80px'"></article>
+    </section>
+
+    <div class="section-title"><div><h2>Offline holdout examples</h2><p>Highest anomaly scores in the test partition; these are benchmark examples, not live decisions.</p></div></div>
+    <section class="card content">
+      <div id="examples-state" class="loading">Loading examples…</div>
+      <div class="scroll"><table><thead><tr><th>Source row</th><th>Elapsed seconds</th><th>Source amount</th><th>Reconstruction error</th><th>Decision</th></tr></thead><tbody id="examples-body"></tbody></table></div>
+    </section>
+
+    <div class="section-title"><div><h2>Score a CSV batch</h2><p>Runs locally through the project's API; uploaded bytes are held in memory and not saved.</p></div><span class="tag">Up to 50,000 rows · 50 MiB</span></div>
+    <section class="card content">
+      <form id="score-form">
+        <div class="formrow"><input class="file" type="file" name="file" id="csv-file" accept=".csv,text/csv" required><button id="score-button" type="submit">Score transactions</button></div>
+        <p class="help">Required columns: <code>Time</code>, <code>Amount</code>, and <code>V1</code> through <code>V28</code>. Any <code>Class</code> column is ignored. Try the <a href="/api/sample">input-only sample CSV</a> generated from real held-out benchmark transactions. The amount and elapsed-time units must match the proxy model's input domain; local mobile-money/POS performance is not validated.</p>
+      </form>
+      <div class="status" id="upload-status" role="status"></div>
+      <div class="scroll" id="score-table-wrap" hidden><table><thead><tr><th>Row</th><th>Elapsed seconds</th><th>Amount</th><th>Anomaly score</th><th>Decision</th></tr></thead><tbody id="score-body"></tbody></table></div>
+    </section>
+  </main>
+  <footer class="wrap foot"><strong>Academic screening prototype.</strong> Anomaly score ≠ fraud determination. Results are specific to the European credit-card proxy dataset, period, features, split, and threshold. Obtain authorized Nigerian mobile-money/POS data and repeat independent chronological validation before making local performance claims.</footer>
+<script>
+  const fmtPct = v => Number.isFinite(Number(v)) ? `${(100*Number(v)).toFixed(2)}%` : '—';
+  const fmtNum = v => Number.isFinite(Number(v)) ? Number(v).toLocaleString(undefined,{maximumFractionDigits:6}) : '—';
+  const escCell = value => String(value ?? '—');
+  function addRow(body, values, decisionIndex=-1){
+    const tr=document.createElement('tr');
+    values.forEach((value,index)=>{const td=document.createElement('td');td.textContent=escCell(value);if(index===decisionIndex){td.className=`decision ${String(value).toLowerCase()}`;}tr.appendChild(td);});
+    body.appendChild(tr);
+  }
+  async function loadMetrics(){
+    const state=document.getElementById('run-state');
+    try{
+      const response=await fetch('/api/metrics');
+      if(!response.ok) throw new Error((await response.json()).detail||'Training results are not available yet.');
+      const data=await response.json(),m=data.test_metrics||{},v=data.split_summary?.validation||{};
+      document.getElementById('ap').textContent=fmtPct(m.average_precision);
+      document.getElementById('precision').textContent=fmtPct(m.precision);
+      document.getElementById('recall').textContent=fmtPct(m.recall);
+      document.getElementById('fpr').textContent=fmtPct(m.false_positive_rate);
+      document.getElementById('dataset').textContent=data.benchmark_scope||'OpenML European credit-card benchmark';
+      document.getElementById('test-rows').textContent=fmtNum(m.rows);
+      document.getElementById('threshold').textContent=fmtNum(data.threshold);
+      document.getElementById('val-fpr').textContent=fmtPct(data.achieved_validation_fpr);
+      document.getElementById('confusion').textContent=`${fmtNum(m.confusion_matrix?.fp)} / ${fmtNum(m.confusion_matrix?.tp)}`;
+      document.getElementById('prevalence').textContent=fmtPct(m.fraud_prevalence);
+      state.textContent='Training run loaded';state.style.color='var(--green)';
+    }catch(error){state.textContent='No saved run';state.style.color='var(--amber)';document.getElementById('dataset').textContent=error.message;}
+  }
+  async function loadExamples(){
+    const body=document.getElementById('examples-body'),state=document.getElementById('examples-state');
+    try{
+      const response=await fetch('/api/examples?limit=10');
+      if(!response.ok) throw new Error('Train the model to create holdout examples.');
+      const data=await response.json();
+      data.examples.forEach(item=>addRow(body,[item.transaction_index,fmtNum(item.time_seconds_from_first_transaction),fmtNum(item.amount_source_currency),fmtNum(item.reconstruction_error),Number(item.review_alert)?'review':'no_alert'],4));
+      state.textContent='';
+    }catch(error){state.textContent=error.message;}
+  }
+  document.getElementById('score-form').addEventListener('submit',async event=>{
+    event.preventDefault();
+    const file=document.getElementById('csv-file').files[0],button=document.getElementById('score-button'),status=document.getElementById('upload-status');
+    if(!file)return;
+    button.disabled=true;button.textContent='Scoring…';status.className='status';status.textContent='';
+    try{
+      const form=new FormData();form.append('file',file);
+      const response=await fetch('/api/score-csv',{method:'POST',body:form});
+      const data=await response.json();if(!response.ok)throw new Error(data.detail||'Scoring request failed.');
+      const body=document.getElementById('score-body');body.replaceChildren();
+      data.results.slice(0,200).forEach(item=>addRow(body,[item.transaction_row,fmtNum(item.time_seconds_from_file_origin),fmtNum(item.amount_source_currency),fmtNum(item.anomaly_score),item.decision],4));
+      document.getElementById('score-table-wrap').hidden=false;
+      status.className='status ok';status.textContent=`Scored ${Number(data.rows_scored).toLocaleString()} rows. Showing at most 200. ${data.warning}`;
+    }catch(error){status.className='status err';status.textContent=error.message;}
+    finally{button.disabled=false;button.textContent='Score transactions';}
+  });
+  loadMetrics();loadExamples();
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "dataset_id": 1597,
+  "source_page": "https://www.openml.org/d/1597",
+  "source_url": "https://zenodo.org/records/7395559/files/creditcard.csv?download=1",
+  "mirror_record": "https://zenodo.org/records/7395559",
+  "doi": "10.5281/zenodo.7395559",
+  "license": "CC-BY-4.0 (as stated on the Zenodo mirror record)",
+  "file": "creditcard.csv",
+  "bytes": 150828752,
+  "sha256": "76274b691b16a6c49d3f159c883398e03ccd6d1ee12d9d8ee38f4b4b98551a89",
+  "md5_verified_against_zenodo_record": "e90efcb83d69faf99fcab8b0255024de",
+  "expected_bytes": 150828752,
+  "expected_md5": "e90efcb83d69faf99fcab8b0255024de",
+  "dataset_description": "Public, real European credit-card transaction benchmark (OpenML 1597).",
+  "downloaded_utc": "2026-10-10T10:12:06.197267+00:00"
+}

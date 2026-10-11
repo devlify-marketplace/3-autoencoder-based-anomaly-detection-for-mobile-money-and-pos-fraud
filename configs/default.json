@@ -1,0 +1,12 @@
+{
+  "seed": 42,
+  "train_fraction": 0.70,
+  "validation_fraction": 0.15,
+  "target_validation_fpr": 0.005,
+  "epochs": 25,
+  "batch_size": 1024,
+  "patience": 5,
+  "learning_rate": 0.001,
+  "latent_dimension": 8,
+  "hidden_dimension": 32
+}

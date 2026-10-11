@@ -1,0 +1,115 @@
+{
+  "title": "Autoencoder-Based Anomaly Detection for Mobile Money and POS Fraud",
+  "benchmark_scope": "Real European credit-card data used as a transparent proxy only.",
+  "training_protocol": "Normal-only autoencoder; known genuine training rows only; fraud labels are not fit targets.",
+  "threshold_protocol": "Validation genuine rows only; target FPR selected before inspecting test metrics.",
+  "split_method": "Contiguous chronological split after sorting by source Time; no random row split.",
+  "threshold": 0.47210395336151123,
+  "target_validation_fpr": 0.005,
+  "achieved_validation_fpr": 0.005015820930505098,
+  "split_summary": {
+    "train": {
+      "rows_total": 199364,
+      "rows_genuine_used_for_fit": 198980,
+      "rows_fraud_excluded_from_fit": 384,
+      "time_start": 0.0,
+      "time_end": 132928.0
+    },
+    "validation": {
+      "rows_total": 42721,
+      "genuine_rows_used_for_threshold": 42665,
+      "fraud_rows_not_used_for_threshold_or_early_stopping": 56,
+      "time_start": 132929.0,
+      "time_end": 151328.0,
+      "normal_only_threshold_fpr": 0.005015820930505098,
+      "all_rows_metrics": {
+        "rows": 42721,
+        "fraud_count": 56,
+        "genuine_count": 42665,
+        "fraud_prevalence": 0.001310830738980829,
+        "threshold": 0.47210395336151123,
+        "precision": 0.17054263565891473,
+        "recall": 0.7857142857142857,
+        "f1": 0.2802547770700637,
+        "average_precision": 0.2459653322428897,
+        "roc_auc": 0.9589195727511677,
+        "false_positive_rate": 0.005015820930505098,
+        "specificity": 0.9949841790694949,
+        "accuracy": 0.9947098616605416,
+        "alert_rate": 0.006039184476018819,
+        "confusion_matrix": {
+          "tn": 42451,
+          "fp": 214,
+          "fn": 12,
+          "tp": 44
+        }
+      }
+    },
+    "test": {
+      "rows_total": 42722,
+      "time_start": 151328.0,
+      "time_end": 172792.0,
+      "metrics": {
+        "rows": 42722,
+        "fraud_count": 52,
+        "genuine_count": 42670,
+        "fraud_prevalence": 0.0012171714807359207,
+        "threshold": 0.47210395336151123,
+        "precision": 0.2331288343558282,
+        "recall": 0.7307692307692307,
+        "f1": 0.35348837209302325,
+        "average_precision": 0.4213705698408479,
+        "roc_auc": 0.9479318022029529,
+        "false_positive_rate": 0.0029294586360440592,
+        "specificity": 0.9970705413639559,
+        "accuracy": 0.9967464070034174,
+        "alert_rate": 0.003815364449229905,
+        "confusion_matrix": {
+          "tn": 42545,
+          "fp": 125,
+          "fn": 14,
+          "tp": 38
+        }
+      }
+    }
+  },
+  "test_metrics": {
+    "rows": 42722,
+    "fraud_count": 52,
+    "genuine_count": 42670,
+    "fraud_prevalence": 0.0012171714807359207,
+    "threshold": 0.47210395336151123,
+    "precision": 0.2331288343558282,
+    "recall": 0.7307692307692307,
+    "f1": 0.35348837209302325,
+    "average_precision": 0.4213705698408479,
+    "roc_auc": 0.9479318022029529,
+    "false_positive_rate": 0.0029294586360440592,
+    "specificity": 0.9970705413639559,
+    "accuracy": 0.9967464070034174,
+    "alert_rate": 0.003815364449229905,
+    "confusion_matrix": {
+      "tn": 42545,
+      "fp": 125,
+      "fn": 14,
+      "tp": 38
+    }
+  },
+  "reproducibility": {
+    "seed": 42,
+    "config": {
+      "seed": 42,
+      "train_fraction": 0.7,
+      "validation_fraction": 0.15,
+      "target_validation_fpr": 0.005,
+      "epochs": 25,
+      "batch_size": 1024,
+      "patience": 5,
+      "learning_rate": 0.001,
+      "latent_dimension": 8,
+      "hidden_dimension": 32
+    }
+  },
+  "trained_at_utc": "2026-10-10T10:12:48.897852+00:00",
+  "interpretation_warning": "Results do not establish performance on Nigerian mobile-money or POS transactions."
+}
