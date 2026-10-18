@@ -4,6 +4,12 @@
 
 > **Critical scope note:** The trained/evaluated data are the **real European credit-card benchmark** distributed through OpenML (dataset 1597). This is an explicitly approved proxy because an open real Nigerian mobile-money/POS fraud dataset was not located. The results **do not establish performance on Nigerian mobile-money or POS transactions**. V1–V28 are anonymized PCA components, and customer, merchant, terminal, channel, and device context are unavailable. A deployment-specific, consented mobile-money/POS dataset is required before any operational claim.
 
+## Devlify
+
+An academic project in the [Devlify GitHub collection](https://github.com/devlify-marketplace).
+
+[Visit Devlify](https://devlify.com.ng) · [Browse the marketplace](https://devlify.com.ng/marketplace)
+
 ## Included
 
 - Public dataset downloader with an integrity manifest and source attribution.
